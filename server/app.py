@@ -1,6 +1,18 @@
 from flask import Flask, request, jsonify
 import struct
-from fourier import detect_pitch, freq_to_note
+import os
+from fourier import freq_to_note
+
+# Motor de FFT seleccionable:
+#   "numpy"  -> fourier.detect_pitch        (rápido, por defecto)
+#   "manual" -> fft_didactica (Cooley-Tukey iterativa con ciclos, para exponer)
+# PowerShell:  $env:FFT_ENGINE="manual"; python app.py
+if os.environ.get("FFT_ENGINE", "numpy").lower() == "manual":
+    from fft_didactica import detect_pitch_manual as detect_pitch
+    print("[FFT] Motor: MANUAL (Cooley-Tukey iterativa — fft_didactica.py)")
+else:
+    from fourier import detect_pitch
+    print("[FFT] Motor: numpy.fft (fourier.py)")
 
 app = Flask(__name__)
 

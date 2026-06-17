@@ -51,3 +51,29 @@ Pon `SEND_ENABLED` en `false` para probar la lectura del micrófono sin servidor
 | Captura | 2048 muestras a 8 kHz (~256 ms) desde el ADC de 12 bits. |
 | FFT | `numpy.fft.rfft` con ventana de Hanning e interpolación parabólica para precisión sub-bin. |
 | Nota | `12 · log₂(f / 440)` → nombre de nota, octava y cents de desviación. |
+
+## Versión didáctica de la FFT (para exponer el algoritmo)
+
+`server/fourier.py` usa `numpy.fft` (rápido, caja negra). Para **explicar cómo funciona la
+Transformada Rápida de Fourier por dentro**, `server/fft_didactica.py` la implementa a mano
+con ciclos, sin numpy:
+
+- `dft_directa()` — la DFT por definición, dos ciclos anidados, O(N²) (la versión lenta).
+- `fft_iterativa()` — la **FFT** (Cooley-Tukey radix-2, iterativa con ciclos), O(N log N).
+- `detect_pitch_manual()` — detecta la nota usando esa FFT manual.
+
+Ejecuta la demostración (compara ambas, detecta la nota y mide tiempos):
+
+```bash
+cd server
+python fft_didactica.py
+```
+
+Salida típica: `fft_iterativa` da el mismo resultado que `dft_directa`, detecta `A4`, y la
+FFT resulta **~600× más rápida** que la DFT directa sobre 2048 muestras.
+
+Para que el **servidor** use este motor manual en lugar de numpy:
+
+```powershell
+$env:FFT_ENGINE="manual"; python app.py    # PowerShell
+```
