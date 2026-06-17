@@ -1,0 +1,32 @@
+# ── Credenciales / entorno (NO subir) ──────────────────────────────────────
+esp32/include/config.h
+.env
+*.env
+
+# ── PlatformIO / ESP32 ──────────────────────────────────────────────────────
+.pio/
+.pioenvs/
+.piolibdeps/
+
+# ── Arduino IDE ─────────────────────────────────────────────────────────────
+build/
+*.hex
+*.bin
+*.elf
+
+# ── Python ──────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# ── Editores / SO ───────────────────────────────────────────────────────────
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ── Claude Code (config local) ──────────────────────────────────────────────
+.claude/settings.local.json
