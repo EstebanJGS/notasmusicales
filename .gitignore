@@ -30,3 +30,8 @@ Thumbs.db
 
 # ── Claude Code (config local) ──────────────────────────────────────────────
 .claude/settings.local.json
+
+node_modules/
+__pycache__/
+*.pyc
+.env
